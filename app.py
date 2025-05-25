@@ -79,52 +79,27 @@ for faixa in sorted(df['Qual sua renda mensal?'].unique()):
     else:
         st.markdown("Nenhuma dor registrada para essa faixa de renda.")
 
-# --- Aba 3 – Desejos & Motivações ---
 st.header("🎯 Aba 3: Desejos & Motivações")
 
-col_desejo = 'Qual seu maior sonho ou objetivo profissional?'
+col_desejo = 'Qual seu maior sonho ou objetivo de vida?'
+if col_desejo in df.columns:
 df[col_desejo] = df[col_desejo].fillna("Não informado")
+desejo_counts = df[col_desejo].value_counts().head(10)
 
-# Top 10 desejos gerais
 
-desejos_counts = df[col_desejo].value_counts().head(10)
-desejos_df = pd.DataFrame({
-    'Desejos & Motivações': desejos_counts.index,
-    'Quantidade': desejos_counts.values
-})
-st.dataframe(desejos_df)
-
-fig_desejo, ax_desejo = plt.subplots()
-sns.barplot(
-    data=desejos_df,
-    x='Quantidade',
-    y='Desejos & Motivações',
-    ax=ax_desejo,
-    palette='crest'
-)
-ax_desejo.set_title("Top 10 Desejos Gerais")
-st.pyplot(fig_desejo)
-
-# Desejos por faixa de renda
-for faixa in sorted(df['Qual sua renda mensal?'].unique()):
-    subset = df[df['Qual sua renda mensal?'] == faixa]
-    counts = subset[col_desejo].value_counts().head(5)
-    st.subheader(f"Desejos Principais – Faixa: {faixa}")
-    sub_df = pd.DataFrame({
-        'Desejos': counts.index,
-        'Quantidade': counts.values
+if not desejo_counts.empty:
+    desejo_df = pd.DataFrame({
+        'Desejos / Objetivos': desejo_counts.index,
+        'Quantidade': desejo_counts.values
     })
-    st.dataframe(sub_df)
-    fig_sub, ax_sub = plt.subplots()
-    sns.barplot(
-        data=sub_df,
-        x='Quantidade',
-        y='Desejos',
-        ax=ax_sub,
-        palette='mako'
-    )
-    ax_sub.set_title(f"Top Desejos - {faixa}")
-    st.pyplot(fig_sub)
+    st.dataframe(desejo_df)
+
+    fig_desejo, ax_desejo = plt.subplots()
+    sns.barplot(data=desejo_df, x='Quantidade', y='Desejos / Objetivos', ax=ax_desejo, palette='crest')
+    ax_desejo.set_title("Top 10 Desejos / Objetivos de Vida")
+    st.pyplot(fig_desejo)
+else:
+    st.markdown("Nenhum desejo registrado.")
 
 # --- Navegação futura para outras abas ---
 st.markdown("---")
