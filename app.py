@@ -10,11 +10,13 @@ st.set_page_config(page_title="Dashboard Arqueológico do Avatar", layout="wide"
 def load_data():
     return pd.read_csv("JC3D23 - [Jornada] PESQUISA LEADS  (respostas) - Respostas ao formulário 1.csv")
 
-df = load_data() st.subheader("🔎 Colunas do CSV carregadas:")
-st.write(df.columns.tolist())
+# Invocar carga de dados e garantir subheader separado
 
+df = load_data()
 
 st.title("Dashboard Arqueológico do Avatar")
+# Subheader opcional de confirmação de dados carregados
+# st.subheader("🔍 Colunas do CSV carregadas:")
 
 # --- Aba 1 – Visão Geral ---
 st.header("📊 Visão Geral: Faixa de Renda")
@@ -65,12 +67,10 @@ for faixa in sorted(faixas):
     else:
         st.markdown("Nenhuma dor registrada para essa faixa de renda.")
 
-
 # --- Navegação futura para outras abas ---
 st.markdown("---")
 st.subheader("🚧 As próximas seções do dashboard incluem:")
 st.markdown("""
-- Análise de Dores por faixa de faturamento
 - Hierarquia de Desejos & Motivações
 - Perfil Comportamental
 - Copy Power com sugestões de headline e CTA para cada persona
